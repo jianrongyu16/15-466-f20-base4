@@ -4,6 +4,8 @@
 //The 'PlayMode' mode plays the game:
 #include "PlayMode.hpp"
 
+#include "demo_menu.hpp"
+
 //For asset loading:
 #include "Load.hpp"
 
@@ -99,7 +101,9 @@ int main(int argc, char **argv) {
 	call_load_functions();
 
 	//------------ create game mode + make current --------------
-	Mode::set_current(std::make_shared< PlayMode >());
+    Mode::set_demo(demo_menu);
+    Mode::set_play(std::make_shared< PlayMode >());
+//    Mode::set_current(demo_menu);
 
 	//------------ main loop ------------
 
@@ -134,7 +138,8 @@ int main(int argc, char **argv) {
 				if (Mode::current && Mode::current->handle_event(evt, window_size)) {
 					// mode handled it; great
 				} else if (evt.type == SDL_QUIT) {
-					Mode::set_current(nullptr);
+					Mode::set_demo(nullptr);
+                    Mode::set_play(nullptr);
 					break;
 				} else if (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_PRINTSCREEN) {
 					// --- screenshot key ---

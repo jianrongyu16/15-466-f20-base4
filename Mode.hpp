@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include <memory>
+#include <vector>
 
 struct Mode : std::enable_shared_from_this< Mode > {
 	virtual ~Mode() { }
@@ -23,6 +24,15 @@ struct Mode : std::enable_shared_from_this< Mode > {
 	//Mode::current is the Mode to which events are dispatched.
 	// use 'set_current' to change the current Mode (e.g., to switch to a menu)
 	static std::shared_ptr< Mode > current;
+    static std::shared_ptr< Mode > demo;
+    static std::shared_ptr< Mode > play;
+    static std::vector<bool> positions;
+    static std::vector<bool> sell;
 	static void set_current(std::shared_ptr< Mode > const &);
+    static void set_demo(std::shared_ptr< Mode > const &);
+    static void set_play(std::shared_ptr< Mode > const &);
+    static void switch_to_demo();
+    static void switch_to_play(std::vector<bool> change, std::vector<bool> s);
+//    static void switch_pre_curr();
 };
 

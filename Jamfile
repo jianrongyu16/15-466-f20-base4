@@ -101,7 +101,9 @@ if $(OS) = NT { #Windows
 
 #Store the names of various .cpp files to build into variables:
 GAME_NAMES =
+	demo_menu
 	PlayMode
+	MenuMode
 	main
 	LitColorTextureProgram
 	#ColorTextureProgram #not used right now, but you might want it
@@ -149,11 +151,11 @@ Objects
 	;
 
 #------------------------
-##check that a program that uses harfbuzz + freetype functions links properly:
-#LOCATE_TARGET = objs ;
-#Objects freetype-test.cpp ;
-#LOCATE_TARGET = dist ;
-#MainFromObjects freetype-test : freetype-test$(SUFOBJ) ;
+#check that a program that uses harfbuzz + freetype functions links properly:
+LOCATE_TARGET = objs ;
+Objects freetype-test.cpp ;
+LOCATE_TARGET = dist ;
+MainFromObjects freetype-test : freetype-test$(SUFOBJ) ;
 #------------------------
 
 LOCATE_TARGET = dist ; #put main in 'dist' directory

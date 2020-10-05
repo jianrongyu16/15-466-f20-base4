@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cfee2cfb-2120-4050-9dbe-d0a9528fc6a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/MenuMode.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuMode.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo_menu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo_menu.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo_play.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo_play.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/Roboto-Light.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jamfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jamfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlayMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/PlayMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlayMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/PlayMode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/freetype-test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/freetype-test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/Makefile" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="clangTidyViaClangd" value="false" />
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ElmWorkspace">
+    <elmProjects />
+    <settings elmCompilerPath="" elmFormatPath="" elmTestPath="" isElmFormatOnSaveEnabled="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1iDiAJZMlnWi5KHSXtRx5z0ZeWw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/dist" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cfee2cfb-2120-4050-9dbe-d0a9528fc6a3" name="Default Changelist" comment="" />
+      <created>1601448420351</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601448420351</updated>
+      <workItem from="1601448422297" duration="529000" />
+      <workItem from="1601603555630" duration="33116000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-435" y="-1132" key="#Deployment" timestamp="1601773897334">
+      <screen x="-675" y="-1417" width="2560" height="1349" />
+    </state>
+    <state x="-435" y="-1132" key="#Deployment/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601773897334" />
+    <state x="-481" y="-1077" key="#New_File_Extensions" timestamp="1601785900606">
+      <screen x="-675" y="-1417" width="2560" height="1349" />
+    </state>
+    <state x="-481" y="-1077" key="#New_File_Extensions/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601785900606" />
+    <state x="978" y="-953" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601778505273">
+      <screen x="-675" y="-1417" width="2560" height="1349" />
+    </state>
+    <state x="978" y="-930" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1280.743/-675.-1417.2560.1417@-675.-1417.2560.1417" timestamp="1601607414706" />
+    <state x="978" y="-953" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601778505273" />
+    <state x="312" y="-976" width="586" height="490" key="find.popup" timestamp="1601787515120">
+      <screen x="-675" y="-1417" width="2560" height="1349" />
+    </state>
+    <state x="312" y="-954" width="586" height="490" key="find.popup/0.23.1280.735/-675.-1417.2560.1417@-675.-1417.2560.1417" timestamp="1601448604535" />
+    <state x="312" y="-976" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601787515120" />
+    <state x="312" y="-974" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1601610388291" />
+  </component>
+</project>
