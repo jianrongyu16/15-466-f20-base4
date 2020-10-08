@@ -9,7 +9,14 @@
 
 //#include "Sprite.hpp"
 #include "Mode.hpp"
+#include "TextDrawer.hpp"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include <hb.h>
+#include <hb-ft.h>
+#include "ColorTextureProgram.hpp"
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <functional>
 #include <string>
@@ -29,7 +36,7 @@ struct MenuMode : Mode {
 	//Each menu item is an "Item":
 	struct Item {
 		Item(
-			std::string const& name_,
+            std::string name_,
 			//Sprite const* sprite_ = nullptr,
 			float scale_ = 1.0f,
 			glm::u8vec4 const& tint_ = glm::u8vec4(0xff),
@@ -37,7 +44,7 @@ struct MenuMode : Mode {
 			glm::vec2 const& at_ = glm::vec2(0.0f)
 		) : name(name_), /*sprite(sprite_),*/ scale(scale_), tint(tint_), selected_tint(tint_), on_select(on_select_), at(at_) {
 		}
-		std::string name;
+        std::string name;
 		//Sprite const* sprite; //sprite drawn for item
 		float scale; //scale for sprite
 		glm::u8vec4 tint; //tint for sprite (unselected)
@@ -81,7 +88,9 @@ struct MenuMode : Mode {
 	//  the last shared_ptr that references it), then it will crash. Don't do that!
 	std::shared_ptr< Mode > background;
 
+	TextDrawer textDrawer;
+
     //call to arrange items in a centered list:
     void update_items(std::vector<Item> const& items_);
-
+    void draw_items();
 };

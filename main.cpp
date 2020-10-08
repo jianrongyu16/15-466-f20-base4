@@ -101,8 +101,8 @@ int main(int argc, char **argv) {
 	call_load_functions();
 
 	//------------ create game mode + make current --------------
-    Mode::set_demo(demo_menu);
     Mode::set_play(std::make_shared< PlayMode >());
+    Mode::set_demo(demo_menu);
 //    Mode::set_current(demo_menu);
 
 	//------------ main loop ------------

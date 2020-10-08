@@ -5,19 +5,28 @@
 //for the GL_ERRORS() macro:
 #include "gl_errors.hpp"
 
-//for easy sprite drawing:
-//#include "DrawSprites.hpp"
-
 //for playing movement sounds:
 #include "Sound.hpp"
 
 //for loading:
 #include "Load.hpp"
 
-// TEMPORARY DrawLines for temp text rendering
-#include "DrawLines.hpp"
-
 #include <random>
+
+
+unsigned int VAO, VBO;
+static Load< void > setup_buffers(LoadTagDefault, []() {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+});
+
 
 Load< Sound::Sample > sound_click(LoadTagDefault, []() -> Sound::Sample* {
 	std::vector< float > data(size_t(48000 * 0.2f), 0.0f);
@@ -98,80 +107,82 @@ bool MenuMode::handle_event(SDL_Event const& evt, glm::uvec2 const& window_size)
 
 void MenuMode::update(float elapsed) {
 
-	select_bounce_acc = select_bounce_acc + elapsed / 0.7f;
-	select_bounce_acc -= std::floor(select_bounce_acc);
-
 	if (background) {
 		background->update(elapsed);
 	}
 }
 
 void MenuMode::draw(glm::uvec2 const& drawable_size) {
-	if (background) {
-		std::shared_ptr< Mode > hold_me = shared_from_this();
-		background->draw(drawable_size);
-		//it is an error to remove the last reference to this object in background->draw():
-		assert(hold_me.use_count() > 1);
-	}
-	else {
-		glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
+    // DRAW
+    glClearColor(0.2f, 0.2f, 0.2f, 0.6f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-	//use alpha blending:
-	/*glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
-	//don't use the depth test:
-	glDisable(GL_DEPTH_TEST);
+    // Draw
+    // start position
+    float y_offset = -100.0f;
+    float cursor_x = 0;
+    float cursor_y = 0;
+    double line = -1;
+    for (size_t i = 0; i < textDrawer.characters.size(); ++i) {
+        TextDrawer::Character c = textDrawer.characters[i];
+        glm::mat4 to_clip = glm::mat4( //n.b. column major(!)
+                1 * 2.0f / float(drawable_size.x), 0.0f, 0.0f, 0.0f,
+                0.0f, 1 * 2.0f / float(drawable_size.y), 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                2.0f / float(drawable_size.x), 2.0f / float(drawable_size.y), 0.0f, 1.0f
+        );
+        glUseProgram(color_texture_program->program);
+        glUniform3f(glGetUniformLocation(color_texture_program->program, "textColor"), c.line == selected?1: c.red, c.line == selected? 1:c.green, c.line == selected? 0:c.blue);
+        glUniformMatrix4fv(color_texture_program->OBJECT_TO_CLIP_mat4, 1, GL_FALSE, glm::value_ptr(to_clip));
+        glBindVertexArray(VAO);
 
-	//float bounce = (0.25f - (select_bounce_acc - 0.5f) * (select_bounce_acc - 0.5f)) / 0.25f * select_bounce_amount;
+        if (c.line!=line){
+            cursor_x = drawable_size.x/2.0*c.start_x;
+            cursor_y = drawable_size.y/2.0*c.start_y+c.line*y_offset;
+            line = c.line;
+        }
 
-	{ //draw the menu using DrawSprites:
-		/*assert(atlas && "it is an error to try to draw a menu without an atlas");
-		DrawSprites draw_sprites(*atlas, view_min, view_max, drawable_size, DrawSprites::AlignPixelPerfect);*/
+        float xpos = cursor_x+c.x_offset+c.bearing_x;
+        float ypos = cursor_y+c.y_offset-(c.height - c.bearing_y);
+        int w = c.width;
+        int h = c.height;
 
-		float y_offset = 0.0f;
-		for (auto const& item : items) {
-			bool is_selected = (&item == &items[0] + selected);
-			// TEMP text rendering. TODO - Replace with better text stuff
-			float aspect = float(drawable_size.x) / float(drawable_size.y);
-			DrawLines lines(glm::mat4(
-				1.0f / aspect, 0.0f, 0.0f, 0.0f,
-				0.0f, 1.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f
-			));
+        float vertices[6][4] = {
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos,     ypos,       0.0f, 1.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+                { xpos + w, ypos + h,   1.0f, 0.0f }
+        };
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, c.texture);
 
-			// Level/freeplay text
-			//std::cout << "item.name: " << item.name << std::endl;
-			constexpr float H = 0.2f;
-			glm::u8vec4 color = (is_selected ? glm::u8vec4(0xff, 0xff, 0xff, 0x00) : glm::u8vec4(0x00, 0x00, 0x00, 0x00));
-			lines.draw_text(item.name,
-				glm::vec3(-aspect + 0.1f * H, 1.0f - 1.1f * H + y_offset, 0.0),
-				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
-				color
-			);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-			y_offset -= 0.5f;
-		}
-	} //<-- gets drawn here!
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
+        cursor_x+=c.x_advance;
+        cursor_y+=c.y_advance;
+
+    }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glUseProgram(0);
 
 	GL_ERRORS(); //PARANOIA: print errors just in case we did something wrong.
 }
 
 
 void MenuMode::layout_items(float gap) {
-	//DrawSprites temp(*atlas, view_min, view_max, view_max - view_min, DrawSprites::AlignPixelPerfect); //<-- doesn't actually draw
 	float y = (float) view_max.y;
 	for (auto& item : items) {
 		glm::vec2 min(0.0f), max(0.0f);
-		/*if (item.sprite) {
-			min = item.scale * (item.sprite->min_px - item.sprite->anchor_px);
-			max = item.scale * (item.sprite->max_px - item.sprite->anchor_px);
-		} else {
-			temp.get_text_extents(item.name, glm::vec2(0.0f), item.scale, &min, &max);
-		}*/
 		item.at.y = y - max.y;
 		item.at.x = 0.5f * (view_max.x + view_min.x) - 0.5f * (max.x + min.x);
 		y = y - (max.y - min.y) - gap;
@@ -183,7 +194,6 @@ void MenuMode::layout_items(float gap) {
 }
 
 void MenuMode::update_items(std::vector<Item> const& items_) {
-    //DrawSprites temp(*atlas, view_min, view_max, view_max - view_min, DrawSprites::AlignPixelPerfect); //<-- doesn't actually draw
     items.clear();
     items = items_;
     for (uint32_t i = 0; i < items.size(); ++i) {
@@ -191,5 +201,23 @@ void MenuMode::update_items(std::vector<Item> const& items_) {
             selected = i;
             break;
         }
+    }
+    draw_items();
+}
+
+void MenuMode::draw_items(){
+    double line = 0;
+    textDrawer.characters.clear();
+    for (auto const& item : items) {
+        std::size_t found = item.name.find('\n');
+        if (found==std::string::npos){
+            textDrawer.load_text(&item.name[0], -0.8f, 0.8f, 1.0f, 1.0f, 1.0f, line);
+        } else{
+            std::string s1 = item.name.substr(0,found);
+            textDrawer.load_text(&s1[0], -0.8f, 0.8f, 1.0f, 1.0f, 1.0f, line);
+            std::string s2 = item.name.substr(found+1);
+            textDrawer.load_text(&s2[0], -0.8f, 0.8f, 1.0f, 1.0f, 1.0f, line+0.5);
+        }
+        line++;
     }
 }

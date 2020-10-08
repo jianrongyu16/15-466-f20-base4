@@ -26,13 +26,11 @@ struct Mode : std::enable_shared_from_this< Mode > {
 	static std::shared_ptr< Mode > current;
     static std::shared_ptr< Mode > demo;
     static std::shared_ptr< Mode > play;
-    static std::vector<bool> positions;
-    static std::vector<bool> sell;
 	static void set_current(std::shared_ptr< Mode > const &);
     static void set_demo(std::shared_ptr< Mode > const &);
     static void set_play(std::shared_ptr< Mode > const &);
     static void switch_to_demo();
-    static void switch_to_play(std::vector<bool> change, std::vector<bool> s);
+    static void switch_to_play();
 //    static void switch_pre_curr();
 };
 

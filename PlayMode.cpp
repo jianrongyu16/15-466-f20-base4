@@ -7,7 +7,6 @@
 #include "Load.hpp"
 #include "gl_errors.hpp"
 #include "data_path.hpp"
-#include "demo_menu.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -37,42 +36,32 @@ Load< Scene > hexapod_scene(LoadTagDefault, []() -> Scene const * {
 	});
 });
 
-Load< Sound::Sample > dusty_floor_sample(LoadTagDefault, []() -> Sound::Sample const * {
-	return new Sound::Sample(data_path("dusty-floor.opus"));
-});
 
 PlayMode::PlayMode() : scene(*hexapod_scene) {
 	//get pointers to leg for convenience:
 	for (auto &transform : scene.transforms) {
 		if (transform.name == "Boat") boat = &transform;
-		else if (transform.name == "Wolf") wolf = &transform;
-        else if (transform.name == "Sheep") sheep = &transform;
-        else if (transform.name == "Plant") plant = &transform;
+		else if (transform.name == "Wolf") {
+		    wolf = &transform;
+            res_wolf = &transform;
+		}
+        else if (transform.name == "Sheep") {
+            sheep = &transform;
+            res_sheep = &transform;
+        }
+        else if (transform.name == "Plant") {
+            plant = &transform;
+            res_plant = &transform;
+        }
 	}
-//	if (hip == nullptr) throw std::runtime_error("Hip not found.");
-//	if (upper_leg == nullptr) throw std::runtime_error("Upper leg not found.");
-//	if (lower_leg == nullptr) throw std::runtime_error("Lower leg not found.");
-//
-//	hip_base_rotation = hip->rotation;
-//	upper_leg_base_rotation = upper_leg->rotation;
-//	lower_leg_base_rotation = lower_leg->rotation;
-
-    Mode::positions.push_back(false);
-    Mode::positions.push_back(false);
-    Mode::positions.push_back(false);
-    Mode::positions.push_back(false);
-    Mode::sell.push_back(false);
-    Mode::sell.push_back(false);
-    Mode::sell.push_back(false);
+	sell.push_back(false);
+    sell.push_back(false);
+    sell.push_back(false);
 
 
 	//get pointer to camera for convenience:
 	if (scene.cameras.size() != 1) throw std::runtime_error("Expecting scene to have exactly one camera, but it has " + std::to_string(scene.cameras.size()));
 	camera = &scene.cameras.front();
-
-	//start music loop playing:
-	// (note: position will be over-ridden in update())
-//	leg_tip_loop = Sound::loop_3D(*dusty_floor_sample, 1.0f, get_leg_tip_position(), 10.0f);
 }
 
 PlayMode::~PlayMode() {
@@ -117,6 +106,9 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 		} else if (evt.key.keysym.sym == SDLK_SPACE) {
             space.pressed = true;
             return true;
+        } else if (evt.key.keysym.sym == SDLK_BACKSPACE) {
+            backspace.pressed = true;
+            return true;
         }
 	} else if (evt.type == SDL_MOUSEBUTTONDOWN) {
 		if (SDL_GetRelativeMouseMode() == SDL_FALSE) {
@@ -142,118 +134,53 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 }
 
 void PlayMode::update(float elapsed) {
-
-    if (wolf&&Mode::positions[0] && wolf->position.x<0) {
-        wolf->position.x = -wolf->position.x;
-    } else if (wolf&&!Mode::positions[0] && wolf->position.x>0) {
-        wolf->position.x = -wolf->position.x;
-    }
-    if (sheep&&Mode::positions[1] && sheep->position.x<0) {
-        sheep->position.x = -sheep->position.x;
-    } else if (sheep&&!Mode::positions[1] && sheep->position.x>0) {
-        sheep->position.x = -sheep->position.x;
-    }
-    if (plant&&Mode::positions[2] && plant->position.x<0) {
-        plant->position.x = -plant->position.x;
-    } else if (plant&&!Mode::positions[2] && plant->position.x>0) {
-        plant->position.x = -plant->position.x;
-    }
-    if (Mode::positions[3] && boat->position.x<0) {
-        boat->position.x = -boat->position.x;
-    } else if (!Mode::positions[3] && boat->position.x>0) {
-        boat->position.x = -boat->position.x;
-    }
     if (boat->position.x>0) {
-        if ((plant&&Mode::sell[2])||(sheep&&plant&&sheep->position.x<0 && plant->position.x<0)) {
-            plant->position.z = -plant->position.z;
+        if (sheep&&plant&&sheep->position.x<0 && plant->position.x<0) {
+            plant->position.z = -10;
             plant=nullptr;
         }
-        if ((sheep&&Mode::sell[1])||(sheep&&wolf&&wolf->position.x<0 && sheep->position.x<0)) {
+        if (sheep&&wolf&&wolf->position.x<0 && sheep->position.x<0) {
             sheep->position.z = -10;
             sheep=nullptr;
         }
     } else {
-        if ((plant&&Mode::sell[2])||(sheep&&plant&&sheep->position.x>0 && plant->position.x>0)) {
+        if (sheep&&plant&&sheep->position.x>0 && plant->position.x>0) {
             plant->position.z = -10;
             plant=nullptr;
         }
-        if ((sheep&&Mode::sell[1])||(sheep&&wolf&&wolf->position.x>0 && sheep->position.x>0)) {
+        if (sheep&&wolf&&wolf->position.x>0 && sheep->position.x>0) {
             sheep->position.z = -10;
             sheep=nullptr;
         }
     }
-    if (space.pressed) {
-        space.pressed = false;
-        if (phase==0) {
-            phase++;
-        }else {
-            std::vector< MenuMode::Item > items;
-            items.emplace_back("Move one of them to the other side");
-            if (wolf&&(boat->position.x<0)==(wolf->position.x<0)){
-                items.emplace_back("Wolf");
-                items.back().on_select = [](MenuMode::Item const&) {
-                    std::vector< bool > c(4, false);
-                    c[0] = true;
-                    c[3] = true;
-                    Mode::switch_to_play(c,Mode::sell);
-                };
-            }
-            if (sheep&&(boat->position.x<0)==(sheep->position.x<0)) {
-                items.emplace_back("Lamb");
-                items.back().on_select = [](MenuMode::Item const &) {
-                    std::vector<bool> c(4, false);
-                    c[1] = true;
-                    c[3] = true;
-                    Mode::switch_to_play(c,Mode::sell);
-                };
-            }
-            if (plant&&(boat->position.x<0)==(plant->position.x<0)) {
-                items.emplace_back("Plant");
-                items.back().on_select = [](MenuMode::Item const &) {
-                    std::vector<bool> c(4, false);
-                    c[2] = true;
-                    c[3] = true;
-                    Mode::switch_to_play(c,Mode::sell);
-                };
-            }
-            items.emplace_back("None");
-            items.back().on_select = [](MenuMode::Item const&) {
-                std::vector< bool > c(4, false);
-                c[3] = true;
-                Mode::switch_to_play(c,Mode::sell);
-            };
-            demo_menu->update_items(items);
+
+    if (!wolf &&!sheep&&!plant) {
+        std::vector< MenuMode::Item > items;
+        end_scene(items, money>=200);
+        demo_menu->update_items(items);
+        Mode::switch_to_demo();
+        return;
+    }
+
+    if (check_all_passed()&&backspace.pressed) {
+        backspace.pressed = false;
+        std::vector< MenuMode::Item > items;
+        if (boat->position.x<0) {
+            sell_animals_phase0(items);
+        } else {
+            sell_animals_phase1(items);
         }
+        demo_menu->update_items(items);
         Mode::switch_to_demo();
     }
 
-	{
-
-		//combine inputs into a move:
-		constexpr float PlayerSpeed = 30.0f;
-		glm::vec2 move = glm::vec2(0.0f);
-		if (left.pressed && !right.pressed) move.x =-1.0f;
-		if (!left.pressed && right.pressed) move.x = 1.0f;
-		if (down.pressed && !up.pressed) move.y =-1.0f;
-		if (!down.pressed && up.pressed) move.y = 1.0f;
-
-		//make it so that moving diagonally doesn't go faster:
-		if (move != glm::vec2(0.0f)) move = glm::normalize(move) * PlayerSpeed * elapsed;
-
-		glm::mat4x3 frame = camera->transform->make_local_to_parent();
-		glm::vec3 right = frame[0];
-		//glm::vec3 up = frame[1];
-		glm::vec3 forward = -frame[2];
-
-		camera->transform->position += move.x * right + move.y * forward;
-	}
-
-	{ //update listener to camera position:
-		glm::mat4x3 frame = camera->transform->make_local_to_parent();
-		glm::vec3 right = frame[0];
-		glm::vec3 at = frame[3];
-		Sound::listener.set_position_right(at, right, 1.0f / 60.0f);
-	}
+    if (space.pressed) {
+        space.pressed = false;
+        std::vector< MenuMode::Item > items;
+        move_animals(items);
+        demo_menu->update_items(items);
+        Mode::switch_to_demo();
+    }
 
 	//reset button press counters:
 	left.downs = 0;
@@ -267,7 +194,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	camera->aspect = float(drawable_size.x) / float(drawable_size.y);
 
 	//set up light type and position for lit_color_texture_program:
-	// TODO: consider using the Light(s) in the scene to do this
+    glDisable(GL_BLEND);
 	glUseProgram(lit_color_texture_program->program);
 	glUniform1i(lit_color_texture_program->LIGHT_TYPE_int, 1);
 	glUniform3fv(lit_color_texture_program->LIGHT_DIRECTION_vec3, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f,-1.0f)));
@@ -293,37 +220,199 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			0.0f, 0.0f, 0.0f, 1.0f
 		));
         constexpr float H = 0.09f;
-        std::string s0 = "plant has been eaten";
-        std::string s1 = "sheep has been eaten";
+        std::string s0 = "plant has been eaten by sheep";
+        std::string s1 = "sheep has been eaten by wolf";
         std::string s2 = "plant has been sold";
         std::string s3 = "sheep has been sold";
         std::string s4 = "wolf has been sold";
-        if (!plant)lines.draw_text(Mode::sell[2]?s2:s0,
-                                   glm::vec3(-0.4f, 0.9f, 0.0),
-                                   glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
-                                   glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-        if (!sheep)lines.draw_text(Mode::sell[1]?s3:s1,
-                                    glm::vec3(-0.4f, 0.8f, 0.0),
+        std::string s5 = "Money: "+std::to_string(money);
+        std::string s6 = "Press SPACE to continue to moving options";
+        std::string s7 = "Press BACKSPACE to continue to selling options";
+        std::string s8 = "You can do better than this!";
+        std::string s9 = "You nailed it!";
+        lines.draw_text(s5,
+           glm::vec3(1.4f, 0.9f, 0.0),
+           glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+           glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+        lines.draw_text(s6,
+                        glm::vec3(-0.7f, 0.9f, 0.0),
+                        glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+                        glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+        if (check_all_passed()) lines.draw_text(s7,
+                        glm::vec3(-0.7f, 0.8f, 0.0),
+                        glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+                        glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+        if (dead>0) lines.draw_text(money==200?s9:s8,
+                                    glm::vec3(-0.7f, 0.4f, 0.0),
                                     glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
                                     glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-        if (!wolf)lines.draw_text(s4,
+        if (!plant)lines.draw_text(sell[2]?s2:s0,
                                    glm::vec3(-0.4f, 0.7f, 0.0),
                                    glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
                                    glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-		lines.draw_text("Mouse motion rotates camera; WASD moves; escape ungrabs mouse",
-			glm::vec3(-aspect + 0.1f * H, -1.0 + 0.1f * H, 0.0),
-			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
-			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
-		float ofs = 2.0f / drawable_size.y;
-		lines.draw_text("Mouse motion rotates camera; WASD moves; escape ungrabs mouse",
-			glm::vec3(-aspect + 0.1f * H + ofs, -1.0 + + 0.1f * H + ofs, 0.0),
-			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
-			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+        if (!sheep)lines.draw_text(sell[1]?s3:s1,
+                                    glm::vec3(-0.4f, 0.6f, 0.0),
+                                    glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+                                    glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+        if (!wolf)lines.draw_text(s4,
+                                   glm::vec3(-0.4f, 0.5f, 0.0),
+                                   glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+                                   glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 	}
 	GL_ERRORS();
 }
 
-//glm::vec3 PlayMode::get_leg_tip_position() {
-//	//the vertex position here was read from the model in blender:
-//	return lower_leg->make_local_to_world() * glm::vec4(-1.26137f, -11.861f, 0.0f, 1.0f);
-//}
+bool PlayMode::check_all_passed() {
+    if (boat->position.x<0) {
+        if (wolf&&wolf->position.x>0) return false;
+        if (sheep&&sheep->position.x>0) return false;
+        if (plant&&plant->position.x>0) return false;
+        return true;
+    }
+    if (wolf&&wolf->position.x<0) return false;
+    if (sheep&&sheep->position.x<0) return false;
+    if (plant&&plant->position.x<0) return false;
+    return true;
+}
+
+void PlayMode::move_animals(std::vector< MenuMode::Item > &items){
+    items.emplace_back("Move one of them to the other side");
+    if (wolf&&(boat->position.x<0)==(wolf->position.x<0)){
+        items.emplace_back("Wolf");
+        items.back().on_select = [this](MenuMode::Item const&) {
+            wolf->position.x = -wolf->position.x;
+            boat->position.x = -boat->position.x;
+            Mode::switch_to_play();
+        };
+    }
+    if (sheep&&(boat->position.x<0)==(sheep->position.x<0)) {
+        items.emplace_back("Sheep");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sheep->position.x = -sheep->position.x;
+            boat->position.x = -boat->position.x;
+            Mode::switch_to_play();
+        };
+    }
+    if (plant&&(boat->position.x<0)==(plant->position.x<0)) {
+        items.emplace_back("Plant");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            plant->position.x = -plant->position.x;
+            boat->position.x = -boat->position.x;
+            Mode::switch_to_play();
+        };
+    }
+    items.emplace_back("Only the boat");
+    items.back().on_select = [this](MenuMode::Item const&) {
+        boat->position.x = -boat->position.x;
+        Mode::switch_to_play();
+    };
+    items.emplace_back("None");
+    items.back().on_select = [](MenuMode::Item const&) {
+        Mode::switch_to_play();
+    };
+}
+
+void PlayMode::sell_animals_phase0(std::vector< MenuMode::Item > &items){
+    items.emplace_back("The shop here offer you the following options. "
+                       "You can always come back.");
+    if (wolf) {
+        items.emplace_back("Sell Wolf for 100");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sell[0] = true;
+            wolf->position.z = -10;
+            wolf=nullptr;
+            money+=100;
+            Mode::switch_to_play();
+        };
+    }
+    if (sheep) {
+        items.emplace_back("Sell Sheep for 50");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sell[1] = true;
+            sheep->position.z = -10;
+            sheep=nullptr;
+            money+=50;
+            Mode::switch_to_play();
+        };
+    }
+    if (plant) {
+        items.emplace_back("Sell plant for 10");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sell[2] = true;
+            plant->position.z = -10;
+            plant=nullptr;
+            money+=10;
+            Mode::switch_to_play();
+        };
+    }
+    items.emplace_back("Sell Nothing");
+    items.back().on_select = [](MenuMode::Item const&) {
+        Mode::switch_to_play();
+    };
+
+}
+
+void PlayMode::sell_animals_phase1(std::vector< MenuMode::Item > &items){
+    items.emplace_back("The shop here offer you the following options. "
+                       "You can always come back.");
+    if (wolf){
+        items.emplace_back("Sell Wolf for 130");
+        items.back().on_select = [this](MenuMode::Item const&) {
+            sell[0] = true;
+            wolf->position.z = -10;
+            wolf=nullptr;
+            money+=130;
+            Mode::switch_to_play();
+        };
+    }
+    if (sheep) {
+        items.emplace_back("Sell Sheep for 30");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sell[1] = true;
+            sheep->position.z = -10;
+            sheep=nullptr;
+            money+=30;
+            Mode::switch_to_play();
+        };
+    }
+    if (plant) {
+        items.emplace_back("Sell plant for 20");
+        items.back().on_select = [this](MenuMode::Item const &) {
+            sell[2] = true;
+            plant->position.z = -10;
+            plant=nullptr;
+            money+=20;
+            Mode::switch_to_play();
+        };
+    }
+    items.emplace_back("Sell Nothing");
+    items.back().on_select = [](MenuMode::Item const&) {
+        Mode::switch_to_play();
+    };
+}
+
+void PlayMode::end_scene(std::vector< MenuMode::Item > &items, bool good){
+    if (good)items.emplace_back("You nailed it!");
+    else items.emplace_back("This doesn't even cover the cost! You can do better than this!");
+    items.emplace_back("Continue");
+    items.back().on_select = [this](MenuMode::Item const&) {
+        plant_sold = false;
+        sheep_sold = false;
+        wolf = res_wolf;
+        sheep = res_sheep;
+        plant = res_plant;
+        wolf->position.x = -std::abs(wolf->position.x);
+        sheep->position.x = -std::abs(sheep->position.x);
+        plant->position.x = -std::abs(plant->position.x);
+        wolf->position.z = 0.1;
+        sheep->position.z = 0.01;
+        plant->position.z = 1;
+        boat->position.x = -std::abs(boat->position.x);
+        money = 0;
+        sell.clear();
+        sell.push_back(false);
+        sell.push_back(false);
+        sell.push_back(false);
+        Mode::switch_to_play();
+    };
+}
