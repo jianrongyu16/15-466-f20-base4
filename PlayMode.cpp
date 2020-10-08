@@ -242,10 +242,6 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
                         glm::vec3(-0.7f, 0.8f, 0.0),
                         glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
                         glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-        if (dead>0) lines.draw_text(money==200?s9:s8,
-                                    glm::vec3(-0.7f, 0.4f, 0.0),
-                                    glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
-                                    glm::u8vec4(0xff, 0xff, 0xff, 0x00));
         if (!plant)lines.draw_text(sell[2]?s2:s0,
                                    glm::vec3(-0.4f, 0.7f, 0.0),
                                    glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),

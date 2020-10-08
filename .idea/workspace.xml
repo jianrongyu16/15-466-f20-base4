@@ -28,38 +28,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfee2cfb-2120-4050-9dbe-d0a9528fc6a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TextDrawer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TextDrawer.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ColorTextureProgram.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ColorTextureProgram.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jamfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jamfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MenuMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/MenuMode.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mode.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlayMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/PlayMode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlayMode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/PlayMode.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_menu.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/demo_menu.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_menu.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/demo_menu.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/README-dusty-floor.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Roboto-Light.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/area.pnct" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/area.scene" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/dusty-floor.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/hexapod.pnct" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/hexapod.scene" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/freetype-test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/freetype-test.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/CREDITS.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/brunch.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/city.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/garden.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/hexapod.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/pool.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/sphere-roller.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/sphere-world.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +98,7 @@
       <updated>1601448420351</updated>
       <workItem from="1601448422297" duration="529000" />
       <workItem from="1601603555630" duration="70794000" />
-      <workItem from="1602091415906" duration="10105000" />
+      <workItem from="1602091415906" duration="10444000" />
     </task>
     <servers />
   </component>
@@ -171,14 +141,14 @@
       <screen x="-675" y="-1417" width="2560" height="1356" />
     </state>
     <state x="-133" y="-1315" width="1124" height="1152" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1602134882415" />
-    <state x="312" y="-974" width="586" height="490" key="find.popup" timestamp="1602136211293">
-      <screen x="-675" y="-1417" width="2560" height="1356" />
+    <state x="312" y="-974" width="586" height="493" key="find.popup" timestamp="1602136820856">
+      <screen x="-675" y="-1417" width="2560" height="1355" />
     </state>
     <state x="312" y="-954" width="586" height="490" key="find.popup/0.23.1280.735/-675.-1417.2560.1417@-675.-1417.2560.1417" timestamp="1601448604535" />
     <state x="312" y="-976" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601787515120" />
     <state x="312" y="-974" width="586" height="492" key="find.popup/0.23.1280.777/-675.-1417.2560.1353@-675.-1417.2560.1353" timestamp="1602016230218" />
     <state x="312" y="-974" width="586" height="492" key="find.popup/0.23.1280.777/-675.-1417.2560.1354@-675.-1417.2560.1354" timestamp="1601964011165" />
-    <state x="312" y="-974" width="586" height="493" key="find.popup/0.23.1280.777/-675.-1417.2560.1355@-675.-1417.2560.1355" timestamp="1602135329765" />
+    <state x="312" y="-974" width="586" height="493" key="find.popup/0.23.1280.777/-675.-1417.2560.1355@-675.-1417.2560.1355" timestamp="1602136820856" />
     <state x="312" y="-974" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1602136211293" />
   </component>
 </project>
