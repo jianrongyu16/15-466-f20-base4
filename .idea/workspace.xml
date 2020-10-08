@@ -128,7 +128,7 @@
       <updated>1601448420351</updated>
       <workItem from="1601448422297" duration="529000" />
       <workItem from="1601603555630" duration="70794000" />
-      <workItem from="1602091415906" duration="9714000" />
+      <workItem from="1602091415906" duration="10105000" />
     </task>
     <servers />
   </component>
@@ -171,14 +171,14 @@
       <screen x="-675" y="-1417" width="2560" height="1356" />
     </state>
     <state x="-133" y="-1315" width="1124" height="1152" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1602134882415" />
-    <state x="312" y="-974" width="586" height="493" key="find.popup" timestamp="1602135329765">
-      <screen x="-675" y="-1417" width="2560" height="1355" />
+    <state x="312" y="-974" width="586" height="490" key="find.popup" timestamp="1602136211293">
+      <screen x="-675" y="-1417" width="2560" height="1356" />
     </state>
     <state x="312" y="-954" width="586" height="490" key="find.popup/0.23.1280.735/-675.-1417.2560.1417@-675.-1417.2560.1417" timestamp="1601448604535" />
     <state x="312" y="-976" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1349@-675.-1417.2560.1349" timestamp="1601787515120" />
     <state x="312" y="-974" width="586" height="492" key="find.popup/0.23.1280.777/-675.-1417.2560.1353@-675.-1417.2560.1353" timestamp="1602016230218" />
     <state x="312" y="-974" width="586" height="492" key="find.popup/0.23.1280.777/-675.-1417.2560.1354@-675.-1417.2560.1354" timestamp="1601964011165" />
     <state x="312" y="-974" width="586" height="493" key="find.popup/0.23.1280.777/-675.-1417.2560.1355@-675.-1417.2560.1355" timestamp="1602135329765" />
-    <state x="312" y="-974" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1602122094653" />
+    <state x="312" y="-974" width="586" height="490" key="find.popup/0.23.1280.777/-675.-1417.2560.1356@-675.-1417.2560.1356" timestamp="1602136211293" />
   </component>
 </project>
